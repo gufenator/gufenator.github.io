@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--[if IE 9]><html class="no-js ie9"><![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js"><!--<![endif]-->
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+		<title>Гуфенатор</title>
+		<meta name="description" content="Гуфенатор - сервис предсказывающий стримы Алексея Гуфовского." />
+		<meta name="keywords" content="гуфовский, twitch, время, дата, когда, стрим, нейросеть, ванга, жук" />
+		<meta name="author" content="Codrops" />
+		<link rel="shortcut icon" href="./assets/images/icon_512.png">
+		<link rel="stylesheet" type="text/css" href="./assets/css/main.css" />
+		<link rel="stylesheet" type="text/css" href="./assets/css/calendar.css" />
+		<script src="./assets/js/modernizr.min.js"></script>
+	</head>
+	<body>
+		<div class="container"> 
+			<header class="clearfix">
+				<h1>Гуфенатор <span style="position: absolute;">Нейровангователь стримов</span></h1>
+				<nav class="codrops-demos">
+					<a class="current-demo" href="https://twitch.tv/gufovicky">Gufovicky</a>
+				</nav>
+			</header>
+			<section class="main">
+				<div class="custom-calendar-wrap">
+					<div id="custom-inner" class="custom-inner">
+						<div class="custom-header clearfix">
+							<nav>
+								<span id="custom-prev" class="custom-prev"></span>
+								<span id="custom-next" class="custom-next"></span>
+							</nav>
+							<h2 id="custom-month" class="custom-month"></h2>
+							<h3 id="custom-year" class="custom-year"></h3>
+						</div>
+						<div id="calendar" class="fc-calendar-container"></div>
+					</div>
+				</div>
+			</section>
+		</div><!-- /container -->
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script type="text/javascript" src="./assets/js/data.js"></script>
+		<script type="text/javascript" src="./assets/js/calendario.js"></script>
+		<script type="text/javascript"> 
+			$(function() {
+				function updateMonthYear() {
+					$( '#custom-month' ).html( $( '#calendar' ).calendario('getMonthName') );
+					$( '#custom-year' ).html( $( '#calendar' ).calendario('getYear'));
+				}
+				
+				$(document).on('finish.calendar.calendario', function(e){
+					updateMonthYear();
+					$( '#custom-next' ).on( 'click', function() {
+						$( '#calendar' ).calendario('gotoNextMonth', updateMonthYear);
+					} );
+					$( '#custom-prev' ).on( 'click', function() {
+						$( '#calendar' ).calendario('gotoPreviousMonth', updateMonthYear);
+					} );
+				});
+				
+				$('#calendar').on('shown.calendar.calendario', function(){
+					$('div.fc-row > div').on('onDayClick.calendario', function(e, dateprop) {
+						if(dateprop.data) {
+							showEvents(dateprop.data.html, dateprop);
+						}
+					});
+				});
+				
+				var transEndEventNames = {
+					'WebkitTransition' : 'webkitTransitionEnd',
+					'MozTransition' : 'transitionend',
+					'OTransition' : 'oTransitionEnd',
+					'msTransition' : 'MSTransitionEnd',
+					'transition' : 'transitionend'
+				},
+				transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+				$wrapper = $( '#custom-inner' );
+				
+				function showEvents( contentEl, dateprop ) {
+					hideEvents();
+					var $events = $( 
+						'<div id="custom-content-reveal" class="custom-content-reveal"><h4>' + dateprop.day +
+						' ' + dateprop.monthname + ' ' + dateprop.year + ' &nbsp; ' + dateprop.hour + ':' + dateprop.minute +
+						'</h4></div>' 
+					),
+					$close = $( '<span class="custom-content-close"></span>' ).on( 'click', hideEvents);
+					$events.append( contentEl , $close ).insertAfter( $wrapper );
+					setTimeout( function() {
+						$events.css( 'top', '0%' );
+					}, 25);
+				}
+				
+				function hideEvents() {
+					var $events = $( '#custom-content-reveal' );
+					if( $events.length > 0 ) {   
+						$events.css( 'top', '100%' );
+						Modernizr.csstransitions ? $events.on( transEndEventName, function() { $( this ).remove(); } ) : $events.remove();
+					}
+				}
+				
+				$( '#calendar' ).calendario({
+					caldata : events,
+					chance : chance,
+					events: ['click', 'focus']
+				});
+			});
+		</script>
+	</body>
+</html>
