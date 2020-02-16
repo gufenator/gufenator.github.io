@@ -1,5 +1,5 @@
 var events = {
-	'11-12-2014-20-54' : [{pic: 'https://sun1-88.userapi.com/N_JKwHAPLObOyVKH10L-FKVkb-sNmTHWm2Axtg/2PE-NpmQhis.jpg', text: 'Продолжаем мутировать в гидролис...стримера. В первый раз в жизни играю в Пять рыцарей Фредди, а потом чуть-чуть Unity, возможно.'}],
+	'11-12-2014-20-55' : [{pic: 'https://sun1-88.userapi.com/N_JKwHAPLObOyVKH10L-FKVkb-sNmTHWm2Axtg/2PE-NpmQhis.jpg', text: 'Продолжаем мутировать в гидролис...стримера. В первый раз в жизни играю в Пять рыцарей Фредди, а потом чуть-чуть Unity, возможно.'}],
 	'11-13-2014-21-03' : [{pic: 'https://sun9-72.userapi.com/c623916/v623916834/a012/jZl838z21Hc.jpg', text: 'Обзор Интерсте...а не, стрим Hearthstone, все нормально  '}],
 	'11-14-2014-19-47' : [{pic: 'https://sun9-45.userapi.com/c622122/v622122834/e015/x3ZJFOLaJ0E.jpg', text: 'Немного хирстоуна в ваши души, а так же попробую heroes of the storm '}],
 	'11-15-2014-18-21' : [{pic: 'https://sun9-43.userapi.com/c625821/v625821834/8d12/5lc_YN_iya4.jpg', text: 'Астрологи объявили неделю стримов, количество стримов увеличилось впятеро  '}],
