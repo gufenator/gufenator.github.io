@@ -68,7 +68,7 @@ def loadWall( count, offset=0 ):
 	#-----------------------
 	print( 'JSON: Загружено.' )
 	#Проверяем json-данные на корректность.
-	if 'response' not in json_obj and 'items' not in json_obj['response']:
+	if 'response' not in json_obj or 'items' not in json_obj['response']:
 		return None
 	if len( json_obj['response']['items'] ) == 0:
 		return None
