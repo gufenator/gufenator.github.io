@@ -418,7 +418,10 @@ div.fc-today > span.fc-weekday {
 	.fc-calendar .fc-row > div > span.fc-date {
 		font-size: 15px;
 	}
-	
+	.custom-content-reveal a, .custom-content-reveal span {
+		font-size: 16px;
+		font-weight: 400;
+	}	
 	.fc-calendar .fc-row > div > span.fc-weekday {
 		font-size: 8px;
 		top: 2px;
