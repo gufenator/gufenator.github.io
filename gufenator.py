@@ -56,7 +56,7 @@ except sqlite3.Error:
 #ФУНКЦИЯ Загружает через api вконтакта посты со стены гуфени, где упоминается твич.
 def loadWall( count, offset=0 ):
 	print( 'JSON: Загружаем ['+ str( offset ) + '-' + str( offset + count ) + '] посты со стены...' )
-	api_query = 'https://api.vk.com/method/wall.search?owner_id=172785834&query=twitch.tv/gufovicky&owners_only=1&v=5.103&access_token=' +\
+	api_query = 'https://api.vk.com/method/wall.search?owner_id=172785834&query=tv/gufovicky&owners_only=1&v=5.103&access_token=' +\
 	service_token  + '&count=' + str( count ) + '&offset=' + str( offset )
 
 	#-----------------------
