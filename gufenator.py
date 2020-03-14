@@ -11,6 +11,7 @@ from calendar import monthrange
 update_chance = False
 fill_db = False
 file_data = ''
+file_index = ''
 db = ''
 service_token = ''
 
@@ -18,14 +19,14 @@ service_token = ''
 
 #Достаем аргументы коммандной строки
 try:
-	opts, args = getopt.getopt( sys.argv[1:], "ht:d:j:" )
+	opts, args = getopt.getopt( sys.argv[1:], "ht:d:j:i:" )
 except getopt.GetoptError:
-	print( 'gufenator.py -t <vk_service_token> -d [database] -j [js_output]' )
+	print( 'gufenator.py -t <vk_service_token> -d [database] -j [js_output] -i [index.html]' )
 	sys.exit( 'Ошибка: неизвестные параметры командной строки!' )
 
 for opt, arg in opts:
 	if opt == '-h':
-		print( 'gufenator.py -t <vk_service_token> -d [database] -j [js_output]' )
+		print( 'gufenator.py -t <vk_service_token> -d [database] -j [js_output] -i [index.html]' )
 		sys.exit( 0 )
 	elif opt == '-t':
 		service_token = arg
@@ -33,8 +34,11 @@ for opt, arg in opts:
 		db = arg
 	elif opt == '-j':
 		file_data = arg
+	elif opt == '-i':
+		file_index = arg
 
 if file_data == '': sys.exit( 'Ошибка: не определен путь к js-файлу для записи вероятностей.' )
+if file_index == '': sys.exit( 'Ошибка: не определен путь к index.html для его перезаписи.' )
 if db == '': sys.exit( 'Ошибка: не определен путь к файлу базы данных!' )
 if service_token == '': sys.exit( 'Ошибка: не определен сервисный токен для доступа к api вкотнтакта!' )
 
@@ -270,6 +274,33 @@ if update_chance == True:
 		data_js.write( '\t]' + (',\n', '\n')[ i >= year_calc ] )
 		i += 1
 	data_js.write( '};\n' )
+
+	#-------------------------------------------------------------------------------
+	#Сброс кеша вероятностей в index.html 
+	try:
+		data_index = open( file_index, 'r' )
+	except IOError:
+		connDB.close()
+		sys.exit( 'Ошибка: невозможно открыть файл "' + file_index + '" на чтение!' )
+	index_html = data_index.readlines()
+	data_index.close()
+
+	try:
+		data_index = open( file_index, 'w' )
+	except IOError:
+		connDB.close()
+		sys.exit( 'Ошибка: невозможно открыть файл "' + file_index + '" на запись!' )
+
+	new_string = '\t\t<script src="./assets/js/data.js?ver=' + str( str(int(now_date.timestamp())) ) + '"></script>\n'
+	i = flag = 0
+	for line in index_html:
+		i += 1
+		if flag == 0 and line.find('/assets/js/data.js') != -1:
+			data_index.write( new_string )
+			flag = 1
+		else:
+			data_index.write( line )
+	data_index.close()
 
 #Закрытие БД
 connDB.close()
